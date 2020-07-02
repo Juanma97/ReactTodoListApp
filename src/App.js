@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddIcon from '@material-ui/icons/Add';
+
+import IconButton from '@material-ui/core/IconButton';
+import TextField from '@material-ui/core/TextField';
+import AppBar from '@material-ui/core/AppBar';
+import Card from '@material-ui/core/Card';
+import Toolbar from '@material-ui/core/Toolbar';
 import './App.css';
 
 function App() {
 
-  const state = useState([]);
-  const todos = state[0];
-  const setTodos = state[1];
+  const [todos, setTodos] = useState([]);
 
   const addItem = (newTodo) => {
     setTodos([...todos, newTodo]);
-  }
-
-  function editTodo() {
-    
   }
 
   function deleteTodo (todoToDelete){
@@ -21,24 +23,29 @@ function App() {
     setTodos([...todos]);
   };
 
-  useEffect(() => {
-    console.log("Cambio de estado");
-  })
-
   return (
     <div className="App">
-      <h1>TodoList App</h1>
-      <input type="text" id="input-todo"></input>
-      <button onClick={() => {addItem(document.getElementById("input-todo").value)}}>Add Todo</button>
+      <AppBar position="static">
+        <Toolbar>TodoList App</Toolbar>
+      </AppBar>
       <div className="todos-container">
-        {todos.map(todo => (
-          <div className="todo">
-            <p key="todo">{todo}</p>
-            <div className="edit-todo" onClick={() => editTodo()}>Edit</div>
-            <div className="delete-todo" onClick={() => deleteTodo(todo)}>Delete</div>
-          </div>
-        ))}
-      </div>
+        <div className="form">
+          <TextField className="textfield" variant="outlined" id="input-todo"></TextField>
+          <IconButton className="add-btn" onClick={() => {addItem(document.getElementById("input-todo").value)}}>
+            <AddIcon />
+          </IconButton>
+        </div>
+          {todos.map((todo, index) => (
+            <div className="container-todo">
+              <Card className="todo">
+                  <p key={index}>{todo}</p>
+              </Card>
+              <div className="delete-todo">
+                <DeleteIcon onClick={() => deleteTodo(todo)}/>
+              </div>
+            </div>
+          ))}
+        </div>
     </div>
   );
 }
